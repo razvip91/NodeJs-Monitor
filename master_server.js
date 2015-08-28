@@ -13,7 +13,7 @@ var port = 5001;
 server.createServer().listen(port);
 
 setInterval(getCPU, 3000);
-// setInterval(getTotalRAM, 3000);
+setInterval(getTotalRAM, 300000);
 setInterval(getUsedRam, 3000);
 setInterval(getFreeRam, 3000);
 setInterval(getRXTraffic, 3000);
@@ -22,37 +22,41 @@ setInterval(getTXTraffic, 3000);
 // getCPU();
 
 function getCPU(){
+	var counter = 0;
 	var index = 'cpu';
 	server.get("http://localhost:5000/cpu", function(res) {
-		var writeStream = fs.createWriteStream('./output/cpu.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
+		counter++;
+		//var writeStream = fs.createWriteStream('./output/cpu.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
 		  // This pipes the GET data to the file
 		res.on("data", function(chunk) {
     		// console.log("BODY: " + chunk);
-    			insertData(index, chunk);
+    			insertData(index, chunk, counter);
 		})
 
-		res.pipe(writeStream, function(err){ 
+		/*res.pipe(writeStream, function(err){ 
 			if (!err){	  
 				console.log("Data written successfull!");				
 			} else {	  
 				console.log(err);
 			}
-		});
+		});*/
 	}).on('error', function(e) {
 		console.log("Got error: " + e.message);
 	})
 }
 
 function getTotalRAM(){
-	
+	var counter = 0;
+	var index = "total_ram"
 	server.get("http://localhost:5000/total_ram", function(res) {
-		var writeStream = fs.createWriteStream('./output/total_ram.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
+		counter++;
+		//var writeStream = fs.createWriteStream('./output/total_ram.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
 		  // This pipes the GET data to the file
 		res.on("data", function(chunk) {
     		// console.log("BODY: " + chunk);
-    			insertData(index, chunk);
+    			insertData(index, chunk, counter);
 		})
-		res.pipe(writeStream, function(err){ 
+		/*res.pipe(writeStream, function(err){ 
 			if (!err){	  
 				console.log("Data written successfull!");
 				// writeStream.end();
@@ -60,22 +64,24 @@ function getTotalRAM(){
 			} else {	  
 				console.log(err);
 			}
-		});
+		});*/
 	}).on('error', function(e) {
 		console.log("Got error: " + e.message);
 	})
 }
 
 function getUsedRam(){
+	var counter = 0;
 	var index = 'used_ram';
 	server.get("http://localhost:5000/used_ram", function(res) {
-		var writeStream = fs.createWriteStream('./output/used_ram.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
+		counter++;
+		//var writeStream = fs.createWriteStream('./output/used_ram.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
 		  // This pipes the GET data to the file
 		res.on("data", function(chunk) {
     		// console.log("BODY: " + chunk);
-    			insertData(index, chunk);
+    			insertData(index, chunk, counter);
 		})
-		res.pipe(writeStream, function(err){ 
+		/*res.pipe(writeStream, function(err){ 
 			if (!err){	  
 				console.log("Data written successfull!");
 				// writeStream.end();
@@ -83,22 +89,24 @@ function getUsedRam(){
 			} else {	  
 				console.log(err);
 			}
-		});
+		});*/
 	}).on('error', function(e) {
 		console.log("Got error: " + e.message);
 	})
 }
 
 function getFreeRam(){
+	var counter = 0;
 	var index = 'free_ram';
 	server.get("http://localhost:5000/free_ram", function(res) {
-		var writeStream = fs.createWriteStream('./output/free_ram.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
+		counter++;
+		//var writeStream = fs.createWriteStream('./output/free_ram.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
 		  // This pipes the GET data to the file
 		res.on("data", function(chunk) {
     		// console.log("BODY: " + chunk);
-    			insertData(index, chunk);
+    			insertData(index, chunk, counter);
 		})
-		res.pipe(writeStream, function(err){ 
+		/*res.pipe(writeStream, function(err){ 
 			if (!err){	  
 				console.log("Data written successfull!");
 				// writeStream.end();
@@ -106,22 +114,24 @@ function getFreeRam(){
 			} else {	  
 				console.log(err);
 			}
-		});
+		});*/
 	}).on('error', function(e) {
 		console.log("Got error: " + e.message);
 	})
 }
 
 function getRXTraffic(){
+	var counter = 0;
 	var index = 'net_rx';
 	server.get("http://localhost:5000/net_rx", function(res) {
-		var writeStream = fs.createWriteStream('./output/net_rx.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
+		counter++;
+		//var writeStream = fs.createWriteStream('./output/net_rx.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
 		  // This pipes the GET data to the file
 		res.on("data", function(chunk) {
     		// console.log("BODY: " + chunk);
-    			insertData(index, chunk);
+    			insertData(index, chunk, counter);
 		})
-		res.pipe(writeStream, function(err){ 
+		/*res.pipe(writeStream, function(err){ 
 			if (!err){	  
 				console.log("Data written successfull!");
 				// writeStream.end();
@@ -129,22 +139,24 @@ function getRXTraffic(){
 			} else {	  
 				console.log(err);
 			}
-		});
+		});*/
 	}).on('error', function(e) {
 		console.log("Got error: " + e.message);
 	})
 }
 
 function getTXTraffic(){
+	var counter = 0;
 	var index = 'net_tx';
 	server.get("http://localhost:5000/net_tx", function(res) {
-		var writeStream = fs.createWriteStream('./output/net_tx.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
+		counter++;
+		//var writeStream = fs.createWriteStream('./output/net_tx.txt', { flags : 'a', encoding : null, fd : null, mode : 0666 });
 		  // This pipes the GET data to the file
 		res.on("data", function(chunk) {
     		// console.log("BODY: " + chunk);
-    			insertData(index, chunk);
+    			insertData(index, chunk, counter);
 		})
-		res.pipe(writeStream, function(err){ 
+		/*res.pipe(writeStream, function(err){ 
 			if (!err){	  
 				console.log("Data written successfull!");
 				// writeStream.end();
@@ -152,7 +164,7 @@ function getTXTraffic(){
 			} else {	  
 				console.log(err);
 			}
-		});
+		});*/
 	}).on('error', function(e) {
 		console.log("Got error: " + e.message);
 	})
@@ -169,7 +181,7 @@ function insertData(index, data){
 
 	createDoc(index, data_string).then(function(response){ console.log(response); }).fail(function(error){ console.log(error); });
 
-	function createDoc(index, data){
+	function createDoc(index, data, counter){
 		client.create({
 		  index: index,
 		  type: 'integer',
@@ -179,13 +191,13 @@ function insertData(index, data){
 		    tags: ['data', 'monitor'],
 		    published: true,
 		    published_at: date_string,
-		    counter: 1
+		    counter: counter
 		  }
 		}, function (error, response) {
 		  if(error)
-		  		def.reject(new Error(error));
+		  	def.reject(new Error(error));
 		  else 
-		  		def.resolve(response);
+		  	def.resolve(response);
 		});
 		return def.promise
 	}
