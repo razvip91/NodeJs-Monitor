@@ -6,6 +6,8 @@ var _getCurrentCPU = "top -bn 2 -d 0.01 | grep '^%Cpu' | tail -n 1 | gawk '{prin
 var _getTotalRAM = "cat /proc/meminfo | grep MemTotal | awk '{print $2 \" \" $3}'";
 var _getFreeRAM = "cat /proc/meminfo | grep MemFree | awk '{print $2 \" \" $3}'";
 var _getUsedRAM = "expr $(cat /proc/meminfo | grep MemTotal | awk '{print $2}') - $(cat /proc/meminfo | grep MemFree | awk '{print $2}')";
+var _getNetworkRX = "ifconfig eth0 | grep 'RX bytes' | cut -d: -f2 | awk '{ print $1 }'";
+var _getNetworkTX = "ifconfig eth0 | grep 'TX bytes' | cut -d: -f2 | awk '{ print $1 }'";
 
 var port = 5000;
 
@@ -51,6 +53,28 @@ app.get('/used_ram', function(req, resp){
 	getUsedRAM(function(_usedRAM){
 			
 			resp.write(_usedRAM.toString(), function(){
+				
+				resp.end();
+			});
+		});
+})
+
+app.get('/net_tx', function(req, resp){
+	
+	getTXTraffic(function(tx_bytes){
+			
+			resp.write(tx_bytes.toString(), function(){
+				
+				resp.end();
+			});
+		});
+})
+
+app.get('/net_rx', function(req, resp){
+	
+	getRXTraffic(function(rx_bytes){
+			
+			resp.write(rx_bytes.toString(), function(){
 				
 				resp.end();
 			});
@@ -105,6 +129,36 @@ function getFreeRAM(next){
 function getUsedRAM(next){
 	
 	exec(_getUsedRAM, function(err, stderr, stdout){
+		
+		if (!err){
+			
+			next(stderr);
+			next(stdout);
+		} else {
+			
+			next(err);
+		}
+	});
+}
+
+function getRXTraffic(next){
+	
+	exec(_getNetworkRX, function(err, stderr, stdout){
+		
+		if (!err){
+			
+			next(stderr);
+			next(stdout);
+		} else {
+			
+			next(err);
+		}
+	});
+}
+
+function getTXTraffic(next){
+	
+	exec(_getNetworkTX, function(err, stderr, stdout){
 		
 		if (!err){
 			
